@@ -31,12 +31,39 @@ class MainActivity : AppCompatActivity() {
         var menuInflater = getMenuInflater()
         menuInflater.inflate(R.menu.app_bar_menu, menu)
 
+        class OnExpand(val context: Context) : MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+
+                Toast.makeText(context, "Action view expanded", Toast.LENGTH_SHORT).show()
+
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                Toast.makeText(context, "Action view collapsed", Toast.LENGTH_SHORT).show()
+
+                return true
+            }
+
+        }
+
+        menu?.findItem(R.id.action_search)?.setOnActionExpandListener(OnExpand(context = applicationContext))
+
+        //menu?.findItem(R.id.action_search).setOnActionExpandListener(onActionExpandListener)
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
+
+            R.id.action_search -> {
+                Toast.makeText(this, "Search menu option was clicked", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+
             R.id.action_share -> {
                 Toast.makeText(this, "Share menu option was clicked", Toast.LENGTH_SHORT).show()
                 return true
