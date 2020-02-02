@@ -6,25 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".SecondActivity">
 
     //Adding the toolbar in the activity file
     <include layout="@layout/toolbar_layout"/>
 
     <Button
-        android:id="@+id/buttonGoSecondActivity"
+        android:id="@+id/buttonGoThirdActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to second activity"
-        android:layout_margin="20dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Main Activity"
-        android:textStyle="bold"
-        android:textSize="30dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"/>
-
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Go to third activity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </LinearLayout>
