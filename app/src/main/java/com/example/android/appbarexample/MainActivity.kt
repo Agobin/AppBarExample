@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     companion object{
-        var itemsList = mutableListOf<String>("Item 1", "Item 2", "Item 3", "Item 4")
+        var itemsList = mutableListOf<String>("One", "Two", "Three", "Four", "Item 2", "Item 3", "Item 4")
     }
+
+
+    lateinit var adapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         buttonAddItem.setOnClickListener {
             val msg = itemInput.text.toString()
             MainActivity.itemsList.add(msg)
-            val adapter = RecyclerAdapter(this, MainActivity.itemsList)
+            adapter = RecyclerAdapter(this, MainActivity.itemsList)
             recyclerView.adapter = adapter
             itemInput.setText("")
         }
@@ -45,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
 
-        val adapter = RecyclerAdapter(this, MainActivity.itemsList)
+        adapter = RecyclerAdapter(this, MainActivity.itemsList)
         recyclerView.adapter = adapter
     }
 
@@ -73,6 +78,32 @@ class MainActivity : AppCompatActivity() {
         menu?.findItem(R.id.action_search)?.setOnActionExpandListener(OnExpand(context = applicationContext))
 
         //menu?.findItem(R.id.action_search).setOnActionExpandListener(onActionExpandListener)
+
+        val menuItem = menu?.findItem(R.id.action_search)
+        var searchView: SearchView = menuItem?.actionView as SearchView
+
+        searchView?.setOnQueryTextListener(this)
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        val userInput = newText?.toLowerCase()
+        //Toast.makeText(this, userInput, Toast.LENGTH_SHORT).show()
+
+        var newList = mutableListOf<String>()
+
+        itemsList.forEach {
+            if (it.toLowerCase().contains(userInput.toString()))
+                newList.add(it)
+        }
+
+        Log.i("Agobin", "New list: " + newList.toString())
+        adapter.updateList(newList)
 
         return true
     }
@@ -110,4 +141,6 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+
 }
