@@ -16,7 +16,7 @@
         </activity>
 
         <activity android:name=".SecondActivity" android:parentActivityName=".MainActivity">
-            //Add this meta data for andriod versions support lower that 4.1
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>

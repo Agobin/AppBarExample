@@ -6,12 +6,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class MainActivity : AppCompatActivity() {
+
+    companion object{
+        var itemsList = mutableListOf<String>("Item 1", "Item 2", "Item 3", "Item 4")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +31,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
         }
+
+        buttonAddItem.setOnClickListener {
+            val msg = itemInput.text.toString()
+            MainActivity.itemsList.add(msg)
+            val adapter = RecyclerAdapter(this, MainActivity.itemsList)
+            recyclerView.adapter = adapter
+            itemInput.setText("")
+        }
+
+        //RecyclerView
+        var layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = layoutManager
+
+        val adapter = RecyclerAdapter(this, MainActivity.itemsList)
+        recyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -59,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
 
             R.id.action_search -> {
-                Toast.makeText(this, "Search menu option was clicked", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Search menu option was clicked", Toast.LENGTH_SHORT).show()
                 return true
             }
 
